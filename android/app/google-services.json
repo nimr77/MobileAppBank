@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "1026253241534",
+    "firebase_url": "https://app-testing-94136.firebaseio.com",
+    "project_id": "app-testing-94136",
+    "storage_bucket": "app-testing-94136.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1026253241534:android:6a68f16c1f86bfb97632ef",
+        "android_client_info": {
+          "package_name": "com.example.bank_app_demo_fstt"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1026253241534-q6b06qd5qh1r2smdkchsl1f9bee4okkb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBpXiPT_z3V55ZIc6PyH2K93fnf29-5ZM4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1026253241534-q6b06qd5qh1r2smdkchsl1f9bee4okkb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

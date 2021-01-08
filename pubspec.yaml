@@ -1,0 +1,27 @@
+name: bank_app_demo_fstt
+description: A new Flutter project.
+
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.7.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  intl: ^0.16.1
+  cupertino_icons: ^1.0.0
+  flutter_spinkit: ^4.1.2+1
+  cloud_firestore: ^0.14.4
+  firebase_core: ^0.5.3
+  firebase_auth: ^0.18.4+1
+  uuid: ^2.2.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+flutter:
+  uses-material-design: true
+flutter_intl:
+  enabled: true
