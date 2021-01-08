@@ -1,6 +1,8 @@
 import 'package:bank_app_demo_fstt/Auth/MyFirebaseAuth.dart';
 import 'package:bank_app_demo_fstt/Controllers/MyUserController.dart';
+import 'package:bank_app_demo_fstt/Views/HistoryView.dart';
 import 'package:bank_app_demo_fstt/Views/MakingUserView.dart';
+import 'package:bank_app_demo_fstt/Views/MyActionsViews.dart';
 import 'package:bank_app_demo_fstt/Views/MyCardView.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -39,7 +41,11 @@ class _MyHomePageState extends State<MyHomePage> {
         leading: IconButton(
           onPressed: () {
             // login // logout // sing in
-            MyUserView.showMessage(context);
+            if (!userLogin)
+              MyUserView.showMessage(context);
+            else
+              // logout
+              MyUserControllers.logout();
           },
           icon: Icon(
             userLogin ? Icons.exit_to_app_rounded : Icons.person,
@@ -58,7 +64,16 @@ class _MyHomePageState extends State<MyHomePage> {
               Center(child: MyCardView()),
               // total amount
               // actions
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: MYActionsView(),
+              ),
+              // show actions when the user is in the system,
               // history
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: MyHistoryFullView(),
+              )
             ],
           ),
         ),

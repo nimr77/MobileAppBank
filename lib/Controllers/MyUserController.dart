@@ -42,6 +42,7 @@ class MyUserControllers {
     //
     // });
     snap.forEach((element) async {
+      MyUser.myCurrentName = MyUser.fromMap(element.data()).name;
       userController.add(MyUser.fromMap(element.data()));
       try {
         // await cardListener.cancel();
@@ -68,10 +69,12 @@ class MyUserControllers {
   }
 
   static init() {
-    cardListener = cardController.stream.listen((event) {});
-    userListener = userController.stream.listen((event) {});
-    amountListener = amountController.stream.listen((event) {});
-    historyListener = historyController.stream.listen((event) {});
+    cardListener = cardController.stream.asBroadcastStream().listen((event) {});
+    userListener = userController.stream.asBroadcastStream().listen((event) {});
+    amountListener =
+        amountController.stream.asBroadcastStream().listen((event) {});
+    historyListener =
+        historyController.stream.asBroadcastStream().listen((event) {});
   }
 
   // get history
@@ -143,10 +146,10 @@ class MyUserControllers {
   static modify(
     double amount,
   ) async {
-    var am = await amountController.stream.last;
+    var am = await amountController.stream.asBroadcastStream().last;
     if (am == null || am.id == null) {
       // create one
-      var x = await cardController.stream.last;
+      var x = await cardController.stream.asBroadcastStream().last;
       am = MyAmount(id: Uuid().v1(), cardID: x.id, total: 0);
     }
     var current = am.total ?? 0;
@@ -186,8 +189,9 @@ class MyUserControllers {
   // create Card
   static Future createCard() async {
     var t = MyCard(
+        name: MyUser.myCurrentName,
         id: Uuid().v1(),
-        number: Uuid().v4(),
+        number: "1845-1451-5626-9821",
         pin: "4836",
         whenCreated: DateTime.now().millisecondsSinceEpoch,
         whenExpired:

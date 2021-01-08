@@ -2474,6 +2474,66 @@ class S {
       args: [],
     );
   }
+
+  /// `Withdraw`
+  String get withdraw {
+    return Intl.message(
+      'Withdraw',
+      name: 'withdraw',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Deposit`
+  String get deposit {
+    return Intl.message(
+      'Deposit',
+      name: 'deposit',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Not valid input`
+  String get notValideText {
+    return Intl.message(
+      'Not valid input',
+      name: 'notValideText',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Not matched password`
+  String get passwordsError {
+    return Intl.message(
+      'Not matched password',
+      name: 'passwordsError',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Not valid number`
+  String get onlyNumber {
+    return Intl.message(
+      'Not valid number',
+      name: 'onlyNumber',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Amount`
+  String get amount {
+    return Intl.message(
+      'Amount',
+      name: 'amount',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

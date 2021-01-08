@@ -243,5 +243,11 @@
   "invalidCouponCode": "Invalid Coupon",
   "haveCouponCode": "Have Coupon Code?",
   "inPlaceAvailable": "In place available",
-  "inPlaceOnly": "In place only"
+  "inPlaceOnly": "In place only",
+  "withdraw": "Withdraw",
+  "deposit": "Deposit",
+  "notValideText": "Not valid input",
+  "passwordsError": "Not matched password",
+  "onlyNumber": "Not valid number",
+  "amount": "Amount"
 }

@@ -1,6 +1,6 @@
 import 'package:bank_app_demo_fstt/Controllers/MyUserController.dart';
 import 'package:bank_app_demo_fstt/Util/GeneralUtil.dart';
-import 'package:bank_app_demo_fstt/Widgets/InputWidget.dart';
+import 'package:bank_app_demo_fstt/Widgets/InputWidgets.dart';
 import 'package:bank_app_demo_fstt/Widgets/MyButtons.dart';
 import 'package:bank_app_demo_fstt/generated/l10n.dart';
 import 'package:flutter/cupertino.dart';
@@ -46,7 +46,10 @@ class _MyUserViewState extends State<MyUserView> {
               child: Column(
                 children: [
                   Center(
-                    child: Text(S.of(context).register,style: Theme.of(context).textTheme.headline4,),
+                    child: Text(
+                      S.of(context).register,
+                      style: Theme.of(context).textTheme.headline4,
+                    ),
                   ),
                   AnimatedSwitcher(
                     duration: Duration(milliseconds: 400),

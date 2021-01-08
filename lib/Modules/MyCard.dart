@@ -6,6 +6,7 @@ class MyCard {
   String pin;
   int whenCreated;
   int whenExpired;
+  String name;
 
 //<editor-fold desc="Data Methods" defaultstate="collapsed">
 
@@ -15,6 +16,7 @@ class MyCard {
     @required this.pin,
     @required this.whenCreated,
     @required this.whenExpired,
+    @required this.name,
   });
 
   MyCard copyWith({
@@ -23,6 +25,7 @@ class MyCard {
     String pin,
     int whenCreated,
     int whenExpired,
+    String name,
   }) {
     return new MyCard(
       id: id ?? this.id,
@@ -30,12 +33,13 @@ class MyCard {
       pin: pin ?? this.pin,
       whenCreated: whenCreated ?? this.whenCreated,
       whenExpired: whenExpired ?? this.whenExpired,
+      name: name ?? this.name,
     );
   }
 
   @override
   String toString() {
-    return 'MyCard{id: $id, number: $number, pin: $pin, whenCreated: $whenCreated, whenExpired: $whenExpired}';
+    return 'MyCard{id: $id, number: $number, pin: $pin, whenCreated: $whenCreated, whenExpired: $whenExpired, name: $name}';
   }
 
   @override
@@ -47,7 +51,8 @@ class MyCard {
           number == other.number &&
           pin == other.pin &&
           whenCreated == other.whenCreated &&
-          whenExpired == other.whenExpired);
+          whenExpired == other.whenExpired &&
+          name == other.name);
 
   @override
   int get hashCode =>
@@ -55,7 +60,8 @@ class MyCard {
       number.hashCode ^
       pin.hashCode ^
       whenCreated.hashCode ^
-      whenExpired.hashCode;
+      whenExpired.hashCode ^
+      name.hashCode;
 
   factory MyCard.fromMap(Map<String, dynamic> map) {
     return new MyCard(
@@ -64,6 +70,7 @@ class MyCard {
       pin: map['pin'] as String,
       whenCreated: map['whenCreated'] as int,
       whenExpired: map['whenExpired'] as int,
+      name: map['name'] as String,
     );
   }
 
@@ -75,8 +82,10 @@ class MyCard {
       'pin': this.pin,
       'whenCreated': this.whenCreated,
       'whenExpired': this.whenExpired,
+      'name': this.name,
     } as Map<String, dynamic>;
   }
 
 //</editor-fold>
+
 }

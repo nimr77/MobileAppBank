@@ -17,6 +17,7 @@ dependencies:
   firebase_core: ^0.5.3
   firebase_auth: ^0.18.4+1
   uuid: ^2.2.2
+  show_up_animation: ^1.0.4
 
 dev_dependencies:
   flutter_test:

@@ -358,5 +358,7 @@
   "foodSuggestions": "Food suggestions",
   "formulaSuggestions": "Formula suggestions",
   "restaurantSuggestions": "Restaurant suggestions",
-  "availableRestaurants": "Available restaurants"
+  "availableRestaurants": "Available restaurants",
+  "withdraw": "Withdraw",
+  "deposit": "Deposit"
 }

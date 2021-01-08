@@ -4,7 +4,7 @@ class MyUser {
   String id;
   String email;
   String name;
-
+  static String myCurrentName;
   static String myCurrentId;
 
 //<editor-fold desc="Data Methods" defaultstate="collapsed">

@@ -113,4 +113,7 @@ class MyValidators {
     }
     return item;
   }
+
+  static String viewOnlyCrDate(DateTime dateTime) =>
+      "${dateTime.year}/${dateTime.month}";
 }
