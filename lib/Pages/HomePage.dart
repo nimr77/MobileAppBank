@@ -9,11 +9,12 @@ import 'package:flutter/material.dart';
 
 class MyHomePage extends StatefulWidget {
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  MyHomePageState createState() => MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class MyHomePageState extends State<MyHomePage> {
   bool userLogin = false;
+  static final GlobalKey<ScaffoldState> myScaffold = GlobalKey<ScaffoldState>();
   @override
   void initState() {
     Firebase.initializeApp().then((value) async {
@@ -35,6 +36,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: myScaffold,
       appBar: AppBar(
         toolbarHeight: 50,
         backgroundColor: Colors.white,

@@ -2534,6 +2534,16 @@ class S {
       args: [],
     );
   }
+
+  /// `Can't withdraw`
+  String get cantWithdraw {
+    return Intl.message(
+      'Can\'t withdraw',
+      name: 'cantWithdraw',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

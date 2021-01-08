@@ -249,5 +249,7 @@
   "notValideText": "Not valid input",
   "passwordsError": "Not matched password",
   "onlyNumber": "Not valid number",
-  "amount": "Amount"
+  "amount": "Amount",
+  "cantWithdraw": "Can't withdraw"
+
 }

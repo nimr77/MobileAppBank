@@ -13,34 +13,43 @@ class MyHistoryView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Row(
-        children: [
-          // the action type
-          myDepositHistory()
-              ? Text(
-                  "{+${myHistory.amount}",
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodyText2
-                      .copyWith(color: Colors.green),
-                )
-              : Text(
-                  "{-${myHistory.amount}",
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodyText2
-                      .copyWith(color: Colors.red),
-                ),
-          // when
-          Text(
-            MyValidators.showTheBestTimeViewWithDate(
-                DateTime.fromMillisecondsSinceEpoch(myHistory.when)),
-            style: Theme.of(context)
-                .textTheme
-                .bodyText2
-                .copyWith(color: Colors.black87),
-          )
-        ],
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Row(
+          children: [
+            // the action type
+            myDepositHistory()
+                ? Expanded(
+                    child: Text(
+                      "+${myHistory.amount}",
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyText2
+                          .copyWith(color: Colors.green),
+                    ),
+                  )
+                : Expanded(
+                    child: Text(
+                      "-${myHistory.amount}",
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyText2
+                          .copyWith(color: Colors.red),
+                    ),
+                  ),
+            // when
+            Expanded(
+              child: Text(
+                MyValidators.showTheBestTimeViewWithDate(
+                    DateTime.fromMillisecondsSinceEpoch(myHistory.when)),
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyText2
+                    .copyWith(color: Colors.black87),
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
@@ -56,6 +65,11 @@ class _MyHistoryFullViewState extends State<MyHistoryFullView> {
   void initState() {
     MyUserControllers.historyListener.onData((data) {
       setState(() {});
+    });
+    MyUserControllers.historyListener.onDone(() {
+      setState(() {
+        MyHistory.listOfMe.clear();
+      });
     });
     super.initState();
   }

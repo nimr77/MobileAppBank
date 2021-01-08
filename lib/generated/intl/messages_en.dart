@@ -43,6 +43,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "cancel" : MessageLookupByLibrary.simpleMessage("Cancel"),
     "cancelOrder" : MessageLookupByLibrary.simpleMessage("Cancel Order"),
     "canceled" : MessageLookupByLibrary.simpleMessage("Canceled"),
+    "cantWithdraw" : MessageLookupByLibrary.simpleMessage("Can\'t withdraw"),
     "card_number" : MessageLookupByLibrary.simpleMessage("CARD NUMBER"),
     "cart" : MessageLookupByLibrary.simpleMessage("Cart"),
     "carts_refreshed_successfuly" : MessageLookupByLibrary.simpleMessage("Carts refreshed successfully"),

@@ -87,5 +87,5 @@ class MyCard {
   }
 
 //</editor-fold>
-
+  static MyCard me;
 }

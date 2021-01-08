@@ -28,6 +28,11 @@ class _MyCardViewState extends State<MyCardView> {
           });
         }
       });
+    MyUserControllers.cardListener.onDone(() {
+      setState(() {
+        myCard = null;
+      });
+    });
     super.initState();
   }
 

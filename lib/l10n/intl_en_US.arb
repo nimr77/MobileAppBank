@@ -360,5 +360,6 @@
   "restaurantSuggestions": "Restaurant suggestions",
   "availableRestaurants": "Available restaurants",
   "withdraw": "Withdraw",
-  "deposit": "Deposit"
+  "deposit": "Deposit",
+  "cantWithdraw": "Can't withdraw"
 }

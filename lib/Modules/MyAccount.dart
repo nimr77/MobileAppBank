@@ -60,4 +60,5 @@ class MyAmount {
   }
 
 //</editor-fold>
+  static MyAmount me;
 }

@@ -60,6 +60,8 @@ class MyUserControllers {
     var q = MyDatabaseRef.getMyUserCard().snapshots();
     q.forEach((element) {
       try {
+        MyCard.me = MyCard.fromMap(element.docChanges.first.doc.data());
+
         cardController.sink
             .add(MyCard.fromMap(element.docChanges.first.doc.data()));
       } catch (e) {
@@ -85,12 +87,24 @@ class MyUserControllers {
       element.docChanges.forEach((doc) {
         MyHistory.listOfMe.add(MyDepositHistory.fromMap(doc.doc.data()));
         historyController.sink.add(MyHistory.listOfMe.last);
+        MyHistory.listOfMe.sort((a, b) {
+          if (a.when < b.when)
+            return 1;
+          else
+            return -1;
+        });
       });
     });
     q2.forEach((element) {
       element.docChanges.forEach((doc) {
         MyHistory.listOfMe.add(MyWithdrawHistory.fromMap(doc.doc.data()));
         historyController.sink.add(MyHistory.listOfMe.last);
+        MyHistory.listOfMe.sort((a, b) {
+          if (a.when < b.when)
+            return 1;
+          else
+            return -1;
+        });
       });
     });
   }
@@ -100,6 +114,7 @@ class MyUserControllers {
     var q = MyDatabaseRef.getMyUserAmount().snapshots();
     q.forEach((element) {
       try {
+        MyAmount.me = MyAmount.fromMap(element.docChanges.first.doc.data());
         amountController.sink
             .add(MyAmount.fromMap(element.docChanges.first.doc.data()));
       } catch (e) {}
@@ -108,12 +123,9 @@ class MyUserControllers {
 
   // logout
   static logout() async {
-    await cardController.done;
-    await historyController.done;
-    await amountController.done;
-    await cardListener.cancel();
-    await historyListener.cancel();
-    await amountListener.cancel();
+    await cardController.close();
+    await amountController.close();
+    await historyController.close();
     await MyFirebaseAuth.logout();
   }
 
@@ -143,13 +155,13 @@ class MyUserControllers {
   }
 
   // modify amount
-  static modify(
+  static Future modify(
     double amount,
   ) async {
-    var am = await amountController.stream.asBroadcastStream().last;
+    var am = MyAmount.me;
     if (am == null || am.id == null) {
       // create one
-      var x = await cardController.stream.asBroadcastStream().last;
+      var x = MyCard.me;
       am = MyAmount(id: Uuid().v1(), cardID: x.id, total: 0);
     }
     var current = am.total ?? 0;

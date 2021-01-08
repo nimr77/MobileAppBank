@@ -1,4 +1,5 @@
 import 'package:bank_app_demo_fstt/Controllers/MyUserController.dart';
+import 'package:bank_app_demo_fstt/Pages/HomePage.dart';
 import 'package:bank_app_demo_fstt/Widgets/InputWidgets.dart';
 import 'package:bank_app_demo_fstt/Widgets/MyButtons.dart';
 import 'package:bank_app_demo_fstt/generated/l10n.dart';
@@ -14,14 +15,20 @@ class _MYActionsViewState extends State<MYActionsView> {
   double currentAmount = 0;
   final myAmount = TextEditingController();
   final myFromKey = GlobalKey<FormState>();
+  bool isLoading = false;
   @override
   void initState() {
     MyUserControllers.amountListener.onData((data) {
-      MyUserControllers.amountController.stream.last.then((value) {
+      if (!isLoading)
         setState(() {
-          currentAmount = value?.total ?? 0;
+          currentAmount = data.total;
         });
-      });
+      else
+        currentAmount = data.total;
+    });
+    MyUserControllers.amountListener.onDone(() {setState(() {
+      currentAmount = 0;
+    });
     });
     super.initState();
   }
@@ -39,20 +46,24 @@ class _MYActionsViewState extends State<MYActionsView> {
           child: Column(
             children: [
               // actions
-              Row(
-                children: [
-                  Expanded(
-                      child: MyInputWidget.formInputBoxStand(
-                          myAmount, S.of(context).amount,
-                          typeOfKeyborad: TextInputType.number)),
-                  // total amounts
-                  Expanded(
-                    child: Text(
-                      currentAmount.toString(),
-                      style: Theme.of(context).textTheme.headline5,
-                    ),
-                  )
-                ],
+              AnimatedSwitcher(
+                duration: Duration(milliseconds: 600),
+                child: Row(
+                  key: ValueKey(currentAmount),
+                  children: [
+                    Expanded(
+                        child: MyInputWidget.formInputBoxStand(
+                            myAmount, S.of(context).amount,
+                            typeOfKeyborad: TextInputType.number)),
+                    // total amounts
+                    Expanded(
+                      child: Text(
+                        currentAmount.toString(),
+                        style: Theme.of(context).textTheme.headline5,
+                      ),
+                    )
+                  ],
+                ),
               ),
               Row(
                 children: [
@@ -61,10 +72,17 @@ class _MYActionsViewState extends State<MYActionsView> {
                         padding: const EdgeInsets.all(8.0),
                         child: MyButtons.simpleActionButton(
                             () => Future(() async {
-                              if (myFromKey.currentState.validate()&&myAmount.text.isNotEmpty)
+                                  if (myFromKey.currentState.validate() &&
+                                      myAmount.text.isNotEmpty) {
+                                    isLoading = true;
                                     await MyUserControllers.modify(
                                         double.parse(myAmount.text));
-                                }),
+                                    isLoading = false;
+                                  }
+                                })
+                                  ..then((value) {
+                                    setState(() {});
+                                  }),
                             S.of(context).deposit,
                             context,
                             elevation: 0,
@@ -75,10 +93,26 @@ class _MYActionsViewState extends State<MYActionsView> {
                         padding: const EdgeInsets.all(8.0),
                         child: MyButtons.simpleActionButton(
                             () => Future(() async {
-                                  if (myFromKey.currentState.validate()&&myAmount.text.isNotEmpty)
+                                  if (myFromKey.currentState.validate() &&
+                                      myAmount.text.isNotEmpty) if (this
+                                          .currentAmount <
+                                      double.parse(this.myAmount.text)) {
+                                    // show error
+                                    MyHomePageState.myScaffold.currentState
+                                        .showSnackBar(SnackBar(
+                                      content: Text(S.of(context).cantWithdraw),
+                                      backgroundColor: Colors.red,
+                                    ));
+                                  } else {
+                                    isLoading = true;
                                     await MyUserControllers.modify(
-                                        double.parse(myAmount.text));
-                                }),
+                                        double.parse("-" + myAmount.text));
+                                    isLoading = false;
+                                  }
+                                })
+                                  ..then((value) {
+                                    setState(() {});
+                                  }),
                             S.of(context).withdraw,
                             context,
                             elevation: 0,
