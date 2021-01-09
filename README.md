@@ -279,3 +279,246 @@ class MyCard {
   static MyCard me;
 }
 ```
+#### History
+here we created two types of history one for the withdraw and one for the deposit actions,
+so we created a mother class called MyHistory, and the other two are implementing it, and one controller for both, one view for both
+```dart
+import 'package:flutter/cupertino.dart';
+
+class MyHistory {
+  String id;
+  int when;
+  double amount;
+
+  static List<MyHistory> listOfMe = List<MyHistory>();
+}
+
+class MyWithdrawHistory implements MyHistory {
+  @override
+  double amount;
+
+  @override
+  String id;
+
+  @override
+  int when;
+
+//<editor-fold desc="Data Methods" defaultstate="collapsed">
+
+  MyWithdrawHistory({
+    @required this.amount,
+    @required this.id,
+    @required this.when,
+  });
+
+  MyWithdrawHistory copyWith({
+    double amount,
+    String id,
+    int when,
+  }) {
+    return new MyWithdrawHistory(
+      amount: amount ?? this.amount,
+      id: id ?? this.id,
+      when: when ?? this.when,
+    );
+  }
+
+  @override
+  String toString() {
+    return 'MyWithdrawHistory{amount: $amount, id: $id, when: $when}';
+  }
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is MyWithdrawHistory &&
+          runtimeType == other.runtimeType &&
+          amount == other.amount &&
+          id == other.id &&
+          when == other.when);
+
+  @override
+  int get hashCode => amount.hashCode ^ id.hashCode ^ when.hashCode;
+
+  factory MyWithdrawHistory.fromMap(Map<String, dynamic> map) {
+    return new MyWithdrawHistory(
+      amount: map['amount'] as double,
+      id: map['id'] as String,
+      when: map['when'] as int,
+    );
+  }
+
+  Map<String, dynamic> toMap() {
+    // ignore: unnecessary_cast
+    return {
+      'amount': this.amount,
+      'id': this.id,
+      'when': this.when,
+    } as Map<String, dynamic>;
+  }
+
+//</editor-fold>
+
+}
+
+class MyDepositHistory implements MyHistory {
+  @override
+  double amount;
+
+  @override
+  String id;
+
+  @override
+  int when;
+
+//<editor-fold desc="Data Methods" defaultstate="collapsed">
+
+  MyDepositHistory({
+    @required this.amount,
+    @required this.id,
+    @required this.when,
+  });
+
+  MyDepositHistory copyWith({
+    double amount,
+    String id,
+    int when,
+  }) {
+    return new MyDepositHistory(
+      amount: amount ?? this.amount,
+      id: id ?? this.id,
+      when: when ?? this.when,
+    );
+  }
+
+  @override
+  String toString() {
+    return 'MyDepositHistory{amount: $amount, id: $id, when: $when}';
+  }
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is MyDepositHistory &&
+          runtimeType == other.runtimeType &&
+          amount == other.amount &&
+          id == other.id &&
+          when == other.when);
+
+  @override
+  int get hashCode => amount.hashCode ^ id.hashCode ^ when.hashCode;
+
+  factory MyDepositHistory.fromMap(Map<String, dynamic> map) {
+    return new MyDepositHistory(
+      amount: map['amount'] as double,
+      id: map['id'] as String,
+      when: map['when'] as int,
+    );
+  }
+
+  Map<String, dynamic> toMap() {
+    // ignore: unnecessary_cast
+    return {
+      'amount': this.amount,
+      'id': this.id,
+      'when': this.when,
+    } as Map<String, dynamic>;
+  }
+
+//</editor-fold>
+
+}
+```
+###### So how we can tell the different?
+In dart there is an ```is``` operator that will help us tell the different.
+Here is an example on how we used it in the view.
+```dart
+class MyHistoryView extends StatelessWidget {
+  final MyHistory myHistory;
+  MyHistoryView({this.myHistory});
+  bool myDepositHistory() => myHistory is MyDepositHistory;
+  .....
+  ```
+Here is an example on how we used it in the controller.
+This function will handle adding new amount in the database
+by reading the current amount and make a different on adding the new amount, like is it less or more than the current one.
+```dart
+  // modify amount
+  static Future modify(
+    double amount,
+  ) async {
+    var am = MyAmount.me;
+    if (am == null || am.id == null) {
+      // create one
+      var x = MyCard.me;
+      am = MyAmount(id: Uuid().v1(), cardID: x.id, total: 0);
+    }
+    var current = am.total ?? 0;
+    var newTotal = amount + current;
+    // if less
+    if (newTotal != 0) {
+      if (current > newTotal) {
+        am.total = newTotal;
+        await MyDatabaseRef.getMyUserAmount().doc(am.id).set(am.toMap());
+        // history
+        var wTemp = MyWithdrawHistory(
+            amount: amount,
+            id: Uuid().v1(),
+            when: DateTime.now().millisecondsSinceEpoch);
+        // save it
+        await MyDatabaseRef.getMyWithdrawHistory()
+            .doc(wTemp.id)
+            .set(wTemp.toMap());
+      } else {
+        am.total = newTotal;
+        await MyDatabaseRef.getMyUserAmount().doc(am.id).set(am.toMap());
+        var dTemp = MyWithdrawHistory(
+            amount: amount,
+            id: Uuid().v1(),
+            when: DateTime.now().millisecondsSinceEpoch);
+        // save it
+        await MyDatabaseRef.getDepositHistory()
+            .doc(dTemp.id)
+            .set(dTemp.toMap());
+      }
+      // if bigger
+    } else {
+      // error
+    }
+  }
+  ```
+  thin our streams will handle the change.
+  ```dart
+    // get history
+    static initStreamHistory() {
+      var q1 = MyDatabaseRef.getDepositHistory().snapshots();
+      var q2 = MyDatabaseRef.getMyWithdrawHistory().snapshots();
+      q1.forEach((element) {
+        element.docChanges.forEach((doc) {
+          MyHistory.listOfMe.add(MyDepositHistory.fromMap(doc.doc.data()));
+          historyController.sink.add(MyHistory.listOfMe.last);
+          MyHistory.listOfMe.sort((a, b) {
+            if (a.when < b.when)
+              return 1;
+            else
+              return -1;
+          });
+        });
+      });
+      q2.forEach((element) {
+        element.docChanges.forEach((doc) {
+          MyHistory.listOfMe.add(MyWithdrawHistory.fromMap(doc.doc.data()));
+          historyController.sink.add(MyHistory.listOfMe.last);
+          MyHistory.listOfMe.sort((a, b) {
+            if (a.when < b.when)
+              return 1;
+            else
+              return -1;
+          });
+        });
+      });
+    }
+    ```
+    ## Conclusion
+    This is app is demo app on how to use Flutter and firestore, on a demo bank app, to get and to show the current amount
+    beside to handle the changes in the database in realtime, and use the power of dart to change in the App state.
