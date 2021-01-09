@@ -521,4 +521,4 @@ by reading the current amount and make a different on adding the new amount, lik
     ```
     ## Conclusion
     This is app is demo app on how to use Flutter and firestore, on a demo bank app, to get and to show the current amount
-    beside to handle the changes in the database in realtime, and use the power of dart to change in the App state.
+    beside to handle the changes in the database in realtime, and use the power of dart to change in the App's state.
