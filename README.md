@@ -160,7 +160,7 @@ AnimatedSwitcher(
                 ],
               ),
             ),
-        ```
+```
 One Thing is important here the key, will represent as an ID for the widget, so in order to change the widget we must change it,
 ,and because our this view is for the card, so when we have a card we will show unknown card otherwise our card.
 #### Streamers
@@ -438,7 +438,7 @@ class MyHistoryView extends StatelessWidget {
   MyHistoryView({this.myHistory});
   bool myDepositHistory() => myHistory is MyDepositHistory;
   .....
-  ```
+```
 Here is an example on how we used it in the controller.
 This function will handle adding new amount in the database
 by reading the current amount and make a different on adding the new amount, like is it less or more than the current one.
@@ -486,7 +486,7 @@ by reading the current amount and make a different on adding the new amount, lik
       // error
     }
   }
-  ```
+```
   thin our streams will handle the change.
   ```dart
     // get history
