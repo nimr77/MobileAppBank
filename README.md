@@ -45,3 +45,5 @@ This will load the user, when we make a change in database for the user we will 
  4. User
  and they are like this, the user contains his/her collection> User:{Card,Amount,History}
 ![alt text](https://firebasestorage.googleapis.com/v0/b/app-testing-94136.appspot.com/o/Posts_Image%2Fstorage%2FScreenshot%20from%202021-01-09%2013-44-02.png?alt=media&token=affae714-a72f-4ccd-aa69-e0a4872a2f0a)
+### So how it works
+we start from the home page which is our only page, contains all the actions:
